@@ -56,7 +56,9 @@ const Table = (props) => {
     );
   });
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const totalPages = filteredData
+    ? Math.ceil(filteredData.length / itemsPerPage)
+    : 1;
 
   const paginatedData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
@@ -70,33 +72,42 @@ const Table = (props) => {
   return (
     <div>
       <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <table className="custom-table">
-        <thead>
-          <tr>
-            {Object.keys(paginatedData[0]).map((column) => (
-              <th key={column}>
-                {column}{" "}
-                <span className="sort-icon" onClick={() => handleSort(column)}>
-                  <SwapVertIcon
-                    style={
-                      sortBy === column ? { color: "blue" } : { color: "black" }
-                    }
-                  />
-                </span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedData.map((row, index) => (
-            <tr key={index}>
-              {Object.values(row).map((value) => (
-                <td key={value}>{value}</td>
+      {filteredData.length > 0 ? (
+        <table className="custom-table">
+          <thead>
+            <tr>
+              {Object.keys(paginatedData[0]).map((column) => (
+                <th key={column}>
+                  {column}{" "}
+                  <span
+                    className="sort-icon"
+                    onClick={() => handleSort(column)}
+                  >
+                    <SwapVertIcon
+                      style={
+                        sortBy === column
+                          ? { color: "blue" }
+                          : { color: "black" }
+                      }
+                    />
+                  </span>
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {paginatedData.map((row, index) => (
+              <tr key={index}>
+                {Object.values(row).map((value) => (
+                  <td key={value}>{value}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p style={{ width: "95vw", fontWeight: "bold" }}>No Data Available</p>
+      )}
       <Pagination
         currentPage={currentPage}
         handlePageChange={handlePageChange}
