@@ -1,5 +1,5 @@
-export const gqlUrl = "https://spacex-production.up.railway.app/";
+export const MOCK_DATA_URL = "https://spacex-production.up.railway.app/";
 
-export const sortType = { ASC: "asc", DESC: "desc" };
+export const SORT_TYPE = { ASC: "asc", DESC: "desc" };
 
-export const defaultColumn = { ID: "ID" };
+export const DEFAULT_COLUMN = { ID: "ID" };

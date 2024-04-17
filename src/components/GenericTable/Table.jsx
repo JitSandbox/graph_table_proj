@@ -3,19 +3,19 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { formatDate } from "../../../utils/helper";
-import { sortType, defaultColumn } from "../../../utils/constant";
+import { SORT_TYPE, DEFAULT_COLUMN } from "../../../utils/constant";
 import SearchBox from "../SearchBox";
 import Pagination from "../Pagination";
-import "./Table.css";
 
-const Table = ({ query, itemsPerPage }) => {
+const Table = (props) => {
+  const { query, itemsPerPage } = props;
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState(defaultColumn.ID);
-  const [sortOrder, setSortOrder] = useState(sortType.ASC);
+  const [sortBy, setSortBy] = useState(DEFAULT_COLUMN.ID);
+  const [sortOrder, setSortOrder] = useState(SORT_TYPE.ASC);
   const [currentPage, setCurrentPage] = useState(1);
 
   const { loading, error, data } = useQuery(query);
-  sortType;
+  SORT_TYPE;
   const tableData = data?.histories.map((history, index) => {
     return {
       ID: index + 1,
@@ -27,10 +27,12 @@ const Table = ({ query, itemsPerPage }) => {
 
   const handleSort = (column) => {
     if (sortBy === column) {
-      setSortOrder(sortOrder === sortType.ASC ? sortType.DESC : sortType.ASC);
+      setSortOrder(
+        sortOrder === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC
+      );
     } else {
       setSortBy(column);
-      setSortOrder(sortType.ASC);
+      setSortOrder(SORT_TYPE.ASC);
     }
   };
 
@@ -40,7 +42,7 @@ const Table = ({ query, itemsPerPage }) => {
 
   const sortedData = data
     ? [...tableData].sort((a, b) => {
-        if (sortOrder === sortType.ASC) {
+        if (sortOrder === SORT_TYPE.ASC) {
           return a[sortBy] > b[sortBy] ? 1 : -1;
         } else {
           return a[sortBy] < b[sortBy] ? 1 : -1;
@@ -72,13 +74,15 @@ const Table = ({ query, itemsPerPage }) => {
         <thead>
           <tr>
             {Object.keys(paginatedData[0]).map((column) => (
-              <th key={column} onClick={() => handleSort(column)}>
+              <th key={column}>
                 {column}{" "}
-                {sortBy === column && (
-                  <span>
-                    <SwapVertIcon style={{ color: "blue" }} />
-                  </span>
-                )}
+                <span className="sort-icon" onClick={() => handleSort(column)}>
+                  <SwapVertIcon
+                    style={
+                      sortBy === column ? { color: "blue" } : { color: "black" }
+                    }
+                  />
+                </span>
               </th>
             ))}
           </tr>

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import "./GenericTable/Table.css";
 
 const Pagination = ({ currentPage, handlePageChange, totalPages }) => {
   return (

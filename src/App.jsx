@@ -6,11 +6,11 @@ import {
   gql,
 } from "@apollo/client";
 import Table from "./components/GenericTable/Table";
-import { gqlUrl } from "../utils/constant";
+import { MOCK_DATA_URL } from "../utils/constant";
 
 const App = () => {
   const client = new ApolloClient({
-    uri: gqlUrl,
+    uri: MOCK_DATA_URL,
     cache: new InMemoryCache(),
   });
 
@@ -27,7 +27,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <div>
-        <Table query={GET_USERS} itemsPerPage={10} />
+        <Table query={GET_USERS} itemsPerPage={5} />
       </div>
     </ApolloProvider>
   );
