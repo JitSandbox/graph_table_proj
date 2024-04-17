@@ -6,6 +6,7 @@ import { formatDate } from "../../../utils/helper";
 import { SORT_TYPE, DEFAULT_COLUMN } from "../../../utils/constant";
 import SearchBox from "../SearchBox";
 import Pagination from "../Pagination";
+import ModalLaunch from "../Modal";
 
 const Table = (props) => {
   const { query, itemsPerPage } = props;
@@ -13,6 +14,7 @@ const Table = (props) => {
   const [sortBy, setSortBy] = useState(DEFAULT_COLUMN.ID);
   const [sortOrder, setSortOrder] = useState(SORT_TYPE.ASC);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedLaunch, setSelectedLaunch] = useState(null);
 
   const { loading, error, data } = useQuery(query);
   SORT_TYPE;
@@ -38,6 +40,14 @@ const Table = (props) => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleUserClick = (row) => {
+    setSelectedLaunch(row);
+  };
+
+  const toggleModal = () => {
+    setSelectedLaunch(null);
   };
 
   const sortedData = data
@@ -93,6 +103,7 @@ const Table = (props) => {
                   </span>
                 </th>
               ))}
+              <th>Summary</th>
             </tr>
           </thead>
           <tbody>
@@ -101,6 +112,9 @@ const Table = (props) => {
                 {Object.values(row).map((value) => (
                   <td key={value}>{value}</td>
                 ))}
+                <td>
+                  <button onClick={() => handleUserClick(row)}>View</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -108,11 +122,20 @@ const Table = (props) => {
       ) : (
         <p style={{ width: "95vw", fontWeight: "bold" }}>No Data Available</p>
       )}
-      <Pagination
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-        totalPages={totalPages}
-      />
+      {filteredData.length > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+        />
+      )}
+      {selectedLaunch && (
+        <ModalLaunch
+          launch={selectedLaunch}
+          isOpen={selectedLaunch !== null}
+          toggle={toggleModal}
+        />
+      )}
     </div>
   );
 };

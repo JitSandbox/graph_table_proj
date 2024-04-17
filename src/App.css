@@ -4,9 +4,6 @@
   padding: 2rem;
   text-align: center;
 }
-body {
-  place-items: flex-start!important;
-}
 
 .custom-table {
   border-collapse: collapse;
@@ -32,7 +29,11 @@ body {
   width: 10rem;
 }
 
-.custom-table th:last-child {
+.custom-table th:nth-child(4) {
+  width: 10rem;
+}
+
+.custom-table th:nth-child(5) {
   width: 10rem;
 }
 
@@ -66,7 +67,7 @@ body {
   border-color: #007bff;
 }
 
-.pagination {
+.pagination-section {
   text-align: end;
   margin-top: 1rem;
 }
