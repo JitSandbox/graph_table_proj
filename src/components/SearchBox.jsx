@@ -2,7 +2,6 @@
 
 const SearchBox = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className="search-box-wrapper">
       <input
         type="text"
         placeholder="Search..."
@@ -10,7 +9,6 @@ const SearchBox = ({ searchTerm, setSearchTerm }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-box"
       />
-    </div>
   );
 };
 
