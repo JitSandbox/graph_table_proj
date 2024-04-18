@@ -114,7 +114,7 @@ const Table = (props) => {
 
   return (
     <div>
-      <div className="table-header">
+      <div className="page-header">
         {viewMode === VIEW_MODE.TABLE && (
           <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         )}
@@ -126,42 +126,44 @@ const Table = (props) => {
       </div>
       {filteredData.length > 0 ? (
         viewMode === VIEW_MODE.TABLE ? (
-          <table className="custom-table">
-            <thead>
-              <tr>
-                {Object.keys(paginatedData[0]).map((column) => (
-                  <th key={column}>
-                    {column}{" "}
-                    <span
-                      className="sort-icon"
-                      onClick={() => handleSort(column)}
-                    >
-                      <SwapVertIcon
-                        style={
-                          sortBy === column
-                            ? { color: "blue" }
-                            : { color: "black" }
-                        }
-                      />
-                    </span>
-                  </th>
-                ))}
-                <th>Summary</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedData.map((row, index) => (
-                <tr key={index}>
-                  {Object.values(row).map((value) => (
-                    <td key={value}>{value}</td>
+          <div className="table-container">
+            <table className="custom-table">
+              <thead>
+                <tr>
+                  {Object.keys(paginatedData[0]).map((column) => (
+                    <th key={column}>
+                      {column}{" "}
+                      <span
+                        className="sort-icon"
+                        onClick={() => handleSort(column)}
+                      >
+                        <SwapVertIcon
+                          style={
+                            sortBy === column
+                              ? { color: "blue" }
+                              : { color: "black" }
+                          }
+                        />
+                      </span>
+                    </th>
                   ))}
-                  <td>
-                    <button onClick={() => handleUserClick(row)}>View</button>
-                  </td>
+                  <th>Summary</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {paginatedData.map((row, index) => (
+                  <tr key={index}>
+                    {Object.values(row).map((value) => (
+                      <td key={value}>{value}</td>
+                    ))}
+                    <td>
+                      <button onClick={() => handleUserClick(row)}>View</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="chart-view">
             <Doughnut data={dataSet} options={options} />
